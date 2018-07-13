@@ -4,6 +4,7 @@ import (
 	"flag"
 	"github.com/shirou/gopsutil/net"
 	"fmt"
+	"github.com/shirou/gopsutil/process"
 )
 
 var (
@@ -15,7 +16,10 @@ func main() {
 	flag.Parse()
 
 	pidFromPort := findPidfromPort(*port)
-	fmt.Println(pidFromPort)
+	nameFromPid := nameFromPid(pidFromPort)
+	prettyOutput := fmt.Sprintf("Pid: %v and process name: %v", pidFromPort, nameFromPid)
+	fmt.Println(prettyOutput)
+
 
 }
 
@@ -33,6 +37,17 @@ func findPidfromPort (port int) (pid int32) {
 				pid = resource.Pid
 			}
 		}
+		if resource.Laddr.IP == "0.0.0.0" {
+			if resource.Laddr.Port == uint32(port) {
+				pid = resource.Pid
+			}
+		}
 	}
+	return
+}
+
+func nameFromPid (pid int32) (name string) {
+	newPid, _ := process.NewProcess(pid)
+	name, _ = newPid.Name()
 	return
 }
