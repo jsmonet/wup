@@ -1,26 +1,30 @@
 package main
 
 import (
-	"flag"
+	flag "github.com/spf13/pflag"
 	"fmt"
 	"github.com/shirou/gopsutil/net"
 	"github.com/shirou/gopsutil/process"
+
 )
 
 var (
-	port = flag.Int("p", 22, "enter the port to find out what process is consuming it presently")
-	includeName = flag.String("n", "n", "enter y or n for yes or no. y, default, limits the output to just the PID") // this is probably stupid
+	port = flag.IntP("port", "p", 22, "which port")
+	//includeName = pflag.StringP("name", "n", "n", "include process name?")
+	verbose = flag.BoolP("verbose", "v", false, "include the process name in a pretty formatted string?") // simply adding the -v flag with no arguments makes this true
 
 )
 
 func main() {
+
+
 	flag.Parse()
 
 	// retrieve PID. This is the entire point of the program
 	pidFromPort := findPidfromPort(*port)
 	response := fmt.Sprint(pidFromPort) // just stringing for type consistency below
 
-	if *includeName == "y" {
+	if *verbose {
 		procName := nameFromPid(pidFromPort)
 		response = fmt.Sprintf("%v is consuming port %v", procName, pidFromPort)
 	}

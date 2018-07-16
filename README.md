@@ -1,10 +1,9 @@
 # wup is life
 
-What's Using [this] Port is highly lossy, oversimplified, and bears rework. It will likely be responsible for your next 3 data breaches because I've never bothered trying to make sure it is secure.
+What's Using [this] Port is highly lossy, oversimplified, and bears rework.
 
-That said, all it's supposed to do is ask you for a TCP port, and give you a process ID (PID) in response--and the name of the process if you ask it nicely.
-
-Currently the program works on my laptop. Currently it hasn't been tested anywhere else. I feel like it deserves the "works on my machine" badge of honor presently, but I will work on shedding that designation shortly.
+## SECURITY!
+This is a day old and has never been tested for vulnerabilities. I have no intention of doing any such analysis while I'm still hashing out the first iteration. 
 
 ## INSTALL!
 
@@ -30,3 +29,18 @@ This returns a pretty formatted string telling you the PID and the process name 
 
 Yeah, I know `-n y` is horrible. I'm blanking, at present, on what bare flag I want to use for this.
 
+This currently works on my laptop and has not been tested anywhere else. 'Nix support coming soon. Windows has been brought up to me, so we'll see how that works out.
+
+## Under the hood
+
+This app uses Shirou's gopsutil package. It queries what network connections are active locally and filters for anything claiming a local IP address of "::1", ":::", "0.0.0.0", or "127.0.0.1". It then tries to match your port argument to connections matching both those local IP addresses as well as the port you specify. As the connection info includes a PID, it then returns the related PID. 
+
+You can optionally request the process name based on the PID. This can be a bit lossy, but is generally useful. Process names are derived using the gopsutil/process bundle. 
+
+## Where's the testing and validation??
+
+Coming. 
+
+## I have a suggestion
+
+Comment here, raise an issue, and/or hit me up on slack
