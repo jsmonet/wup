@@ -27,21 +27,31 @@ func findPidfromPort (port int) (pid int32) {
 	a, _ := net.Connections("TCP")
 	//fmt.Println(a)
 	for _, resource := range a {
-		if resource.Laddr.IP == "::1" {
+
+		switch resource.Laddr.IP {
+		case "::1", ":::", "0.0.0.0", "127.0.0.1":
 			if resource.Laddr.Port == uint32(port) {
 				pid = resource.Pid
 			}
+		default:
+			pid = 0
 		}
-		if resource.Laddr.IP == "127.0.0.1" {
-			if resource.Laddr.Port == uint32(port) {
-				pid = resource.Pid
-			}
-		}
-		if resource.Laddr.IP == "0.0.0.0" {
-			if resource.Laddr.Port == uint32(port) {
-				pid = resource.Pid
-			}
-		}
+
+		//if resource.Laddr.IP == "::1" {
+		//	if resource.Laddr.Port == uint32(port) {
+		//		pid = resource.Pid
+		//	}
+		//}
+		//if resource.Laddr.IP == "127.0.0.1" {
+		//	if resource.Laddr.Port == uint32(port) {
+		//		pid = resource.Pid
+		//	}
+		//}
+		//if resource.Laddr.IP == "0.0.0.0" {
+		//	if resource.Laddr.Port == uint32(port) {
+		//		pid = resource.Pid
+		//	}
+		//}
 	}
 	return
 }
