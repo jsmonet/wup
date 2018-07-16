@@ -8,30 +8,24 @@ import (
 )
 
 var (
-	port = flag.Int("port", 22, "enter the port to find out what process is consuming it presently")
-	pidonly = flag.String("pidonly", "y", "enter y or n for yes or no. y, default, limits the output to just the PID")
+	port = flag.Int("p", 22, "enter the port to find out what process is consuming it presently")
+	includeName = flag.String("n", "n", "enter y or n for yes or no. y, default, limits the output to just the PID") // this is probably stupid
+
 )
 
 func main() {
 	flag.Parse()
 
-	
 	// retrieve PID. This is the entire point of the program
 	pidFromPort := findPidfromPort(*port)
+	response := fmt.Sprint(pidFromPort) // just stringing for type consistency below
 
-	if *pidonly == "y" {
-		fmt.Println(pidFromPort)
-
-	} else if *pidonly == "n"  {
-		nameFromPid := nameFromPid(pidFromPort)
-		prettyOutput := fmt.Sprintf("Pid: %v and process name: %v", pidFromPort, nameFromPid)
-		fmt.Println(prettyOutput)
-	} else {
-		fmt.Println("If you are going to define -pidonly, you must choose either y or n, nothing else")
+	if *includeName == "y" {
+		procName := nameFromPid(pidFromPort)
+		response = fmt.Sprintf("%v is consuming port %v", procName, pidFromPort)
 	}
 
-
-
+	fmt.Println(response)
 
 }
 
