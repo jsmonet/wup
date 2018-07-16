@@ -10,9 +10,7 @@ import (
 
 var (
 	port = flag.IntP("port", "p", 22, "which port")
-	//includeName = pflag.StringP("name", "n", "n", "include process name?")
 	verbose = flag.BoolP("verbose", "v", false, "include the process name in a pretty formatted string?") // simply adding the -v flag with no arguments makes this true
-
 )
 
 func main() {
@@ -34,11 +32,11 @@ func main() {
 }
 
 func findPidfromPort (port int) (pid int32) {
-	a, _ := net.Connections("TCP")
+	a, _ := net.Connections("tcp")
 
 	for _, resource := range a {
 		switch resource.Laddr.IP {
-		case "::1", ":::", "0.0.0.0", "127.0.0.1":
+		case "::1", "::", ":::", "0.0.0.0", "127.0.0.1": // there's no place like home, home, home, home, or home
 			if resource.Laddr.Port == uint32(port) {
 				pid = resource.Pid
 			}

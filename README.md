@@ -22,14 +22,14 @@ wup -p 8080
 This runs the program and asks it to return the PID of what is serving on port 8080.
 
 ```
-wup -p 8080 -n y
+wup -p 8080 -v
 ```
 
 This returns a pretty formatted string telling you the PID and the process name consuming port 8080.
 
-Yeah, I know `-n y` is horrible. I'm blanking, at present, on what bare flag I want to use for this.
+## Tested in...
 
-This currently works on my laptop and has not been tested anywhere else. 'Nix support coming soon. Windows has been brought up to me, so we'll see how that works out.
+I've tested this on my laptop and in a Centos7 vagrant VM so far. Testing to continue, and an actual test file to come.
 
 ## Under the hood
 
