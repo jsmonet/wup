@@ -24,7 +24,7 @@ func main() {
 
 	if *verbose {
 		procName := nameFromPid(pidFromPort)
-		response = fmt.Sprintf("%v is consuming port %v", procName, pidFromPort)
+		response = fmt.Sprintf("%v - %v", pidFromPort, procName)
 	}
 
 	fmt.Println(response)
