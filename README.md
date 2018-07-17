@@ -64,5 +64,7 @@ Comment here, raise an issue, and/or hit me up on slack
 ### Changelog
 
 v1.02: added `-a` flag to return all locally-served processes, their pids/names/ports/sources. 
+
 v1.01: language update
+
 v1: initial release
